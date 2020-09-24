@@ -1,0 +1,26 @@
+<h1>Hello, Dimi !</h1>
+
+<!--<table id = "excel-table">-->
+<!--  <tr>-->
+<!--    <th> ContainerNo </th>-->
+<!--    <th> SelCondition </th>-->
+<!--    <th> ContainerCondition </th>-->
+<!--    <th> GateInDateTime </th>-->
+<!--  </tr>-->
+<!--  <tr *ngFor = "let sup of company">-->
+<!--    <td> {{sup.ContainerNo}} </td>-->
+<!--    <td> {{sup.SelCondition}} </td>-->
+<!--    <td> {{sup.ContainerCondition}} </td>-->
+<!--    <td> {{sup.GateInDateTime }} </td>-->
+<!--  </tr>-->
+<!--</table>-->
+<form action="" name="my">
+  <input type="file" name="file">
+</form>
+<a style="cursor: pointer" (click)="test()">
+  <p> cloud_download </p>
+</a>
+<form action="">
+  <input type="file" (input)="test($event.target.value)">
+</form>
+
