@@ -14,13 +14,13 @@
 <!--    <td> {{sup.GateInDateTime }} </td>-->
 <!--  </tr>-->
 <!--</table>-->
-<form action="" name="my">
-  <input type="file" name="file">
-</form>
-<a style="cursor: pointer" (click)="test()">
-  <p> cloud_download </p>
-</a>
+<!--<form action="" name="my">-->
+<!--  <input type="file" name="file">-->
+<!--</form>-->
+<!--<a style="cursor: pointer" (click)="test()">-->
+<!--  <p> cloud_download </p>-->
+<!--</a>-->
 <form action="">
-  <input type="file" (input)="test($event.target.value)">
+  <input type="file" (change)="exportDocx($event.target.files)">
 </form>
 

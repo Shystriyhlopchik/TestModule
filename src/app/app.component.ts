@@ -29,56 +29,79 @@ export class AppComponent {
     // XLSX.writeFile (wb, this.fileName);
   }
 
-  loadFile(url, callback) {
-    JSZipUtils.getBinaryContent(url, callback);
+  // loadFile(url, callback) {
+  //   JSZipUtils.getBinaryContent(url, callback);
+  // }
+  //
+  // test(val) {
+  //   let form = document.forms;
+  //   console.log(form);
+  // }
+
+  dataGeneration() {
+    console.log()
   }
 
-  test(val) {
-    let form = document.forms;
-    console.log(form);
-  }
-
-  exportdocx(): void {
-    this.loadFile('https://docxtemplater.com/tag-example.docx',(error, content) => {
-      if (error) {
-        throw error;
-      }
-      let zip = new JSZip(content);
-      const doc = new Docxtemplater().loadZip(zip);
-      doc.setData({
-        first_name: 'John',
-        last_name: 'Doe',
-        phone: '0652455478',
-        description: 'New Website'
-      });
+  exportDocx(files: Blob, centersStateTableData: object): void {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.readAsArrayBuffer(file)
+    console.log(reader)
+    // генерируем JSON
+    // const data = this.createObjectData(this.listOfColumns, centersStateTableData)
+    reader.onload = function() {
+      const content = reader.result
+      const zip = new JSZip(content)
+      const doc = new Docxtemplater().loadZip(zip)
+      const data = new Data(centersStateTableData)
+      generatingJsonObject(data)
+      doc.setData(data)
+      // doc.setData({
+      //   first_name: 'John',
+      //   last_name: 'Doe',
+      //   table:[
+      //     {
+      //       "one": "John",
+      //       "two": "Doe",
+      //       "three": "+44546546454",
+      //       "four": "fsfds",
+      //       "five": "fdfsdfs"
+      //     },
+      //     {
+      //       "one": "Jane",
+      //       "two": "Doe",
+      //       "Three": "+445476454",
+      //       "four": "fsfds",
+      //       "five": "fdfsdfs"
+      //     }
+      //   ]
+      // });
       try {
         // Replace placeholders with info values
-        doc.render();
+        doc.render()
       } catch (error) {
         const e = {
           message: error.message,
           name: error.name,
           stack: error.stack,
           properties: error.properties,
-        };
-        console.log(JSON.stringify({error: e}));
-        throw error;
+        }
+        console.log(JSON.stringify({error: e}))
+        throw error
       }
 
       const out = doc.getZip().generate({
         type: 'blob',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-        // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
-      saveAs(out, 'output.docx');
-    });
-  }
+      })
+      // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+      saveAs(out, 'output.docx')
+    }
 
-  // public company = [
-  //   { "ContainerNo": 4 },
-  //   { "ContainerNo": 4, "SelCondition": 23, "ContainerCondition": 45,  "GateInDateTime": 55 },
-  //   { "ContainerNo": 4, "SelCondition": 23, "ContainerCondition": 45,  "GateInDateTime": 55 }
-  // ];
+    reader.onerror = function() {
+      console.log(reader.error)
+    };
+  }
 }
 
 
